@@ -1,0 +1,14 @@
+{
+  "name": "careermaster",
+  "version": "1.0.0",
+  "description": "Make a DB of Your Career",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Pranjal Gupta",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.17.1"
+  }
+}
