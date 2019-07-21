@@ -10,7 +10,7 @@ const interviewbasedOperationsRoute = require('./Routes/InterviewCalls');
 
 // Connect to MongoDB
 // mongoose.connect('mongodb://localhost/InterviewsDB');
-mongoose.connect('mongodb://master:indian12345@@ds253537.mlab.com:53537/heroku_l7rc1lfr');
+mongoose.connect('mongodb://master:indian@12345@ds253537.mlab.com:53537/heroku_l7rc1lfr');
 mongoose.Promise = global.Promise;
 
 
