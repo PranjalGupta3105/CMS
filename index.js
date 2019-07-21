@@ -5,6 +5,10 @@ const mongoose = require('mongoose');
 // Setting up the Express App
 const app = express();
 
+app.get('/', function(req, res){
+    res.send('Connected');
+});
+
 // Grabbing up all of the Routes defined in the file
 const interviewbasedOperationsRoute = require('./Routes/InterviewCalls');
 
