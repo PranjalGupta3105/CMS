@@ -29,7 +29,7 @@ app.use(function(err, req, res, next){
 });
 
 // Listen to the Requests
-app.listen(process.env.port || 4000, function(){  // Add ( process.event.port || ) before 4000 before deploying the app to Heroku
+app.listen(process.env.PORT || 4000, function(){  // Add ( process.event.port || ) before 4000 before deploying the app to Heroku
     console.log("Ready to Listen the Requests");   
 });
 
