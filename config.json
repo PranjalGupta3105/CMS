@@ -1,4 +1,8 @@
 {
+"Environment":"Dev",
 "User":"master",
-"Password":"indian@12345"
+"Password":"indian@12345",
+"Host":"ds253537.mlab.com",
+"Port":"53537",
+"Database":"heroku_l7rc1lfr"
 }
