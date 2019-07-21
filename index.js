@@ -25,6 +25,8 @@ console.log("Connection Established For Test Env");
 else
 {
 var dbconnectionURL  = `${config.User}:${encodeURIComponent(config.Password)}@${config.Host}:${config.Post}`;
+console.log("\n"+"Database Connection URL"+"\n"+dbconnectionURL);
+
 mongoose.connect(`mongodb://${dbconnectionURL}/${config.Database}`);
 // Had Problem with using @ in the Password of MongoDB solved using Answer Provided by vanduc1102
 // at : https://stackoverflow.com/questions/7486623/mongodb-password-with-in-it
