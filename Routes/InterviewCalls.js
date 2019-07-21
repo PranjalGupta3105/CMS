@@ -26,63 +26,76 @@ router.post('/RegisterNewInterview',function(req, res, next){
 // ---------------------------- Update an existing Interview Details
 router.put('/UpdateInterviewDetails/:InterviewId', function(req, res, next){
         console.log("I have Entered Update Interview Details API");
-        var sampleresponsebody = JSON.stringify(
-            {
-                "Interview Id": 1,
-                "Message": "Interview Details Updated Succcessfully"
-            });
-        
-        res.send(sampleresponsebody);
+
+        var interviewId = req.params.InterviewId;
+
+        Interview.findByIdAndUpdate({_id: interviewId}, req.body).then(function(){
+            
+            // If we return the updatedInterview, then the Enteries would not be shown reflected, thus
+            Interview.findOne({_id: interviewId}).then(function(updatedInterview){
+
+                var updateInterviewResponse = JSON.stringify(
+                    {
+                        "Interview Id": updatedInterview._id,
+                        "Company": updatedInterview.Company,
+                        "Message": "Interview Details Updated Succcessfully"
+                    });
+                
+                res.send(updateInterviewResponse);
+            }).catch(next);
+            
+        }).catch(next);
+
+
 });
 
 // ---------------------------- Remove an existing Interview Details
 router.delete('/RemoveSavedInterview/:InterviewId',function(req, res, next){
         console.log("I have Entered Remove a Saved Interview API");
-        var sampleresponsebody = JSON.stringify(
-            {
-                "Interview Id":1,
-                "Message":"Interview Details Removed Successfully"
-            });
+
+        // Grabbing the InterviewId for the Interview to be delete from the parameters in the URL
+        var interviewId = req.params.InterviewId; 
         
-        res.send(sampleresponsebody);
+        // Method will Find the Element with the Unique Object ID in Mongo DB and will remove it
+        Interview.findByIdAndRemove({_id: interviewId}).then(function(removedinterview){
+
+            var deleteInterviewResponse = JSON.stringify(
+                {
+                    "Interview Id":removedinterview._id,
+                    "Message":"Interview Details Removed Successfully"
+                });
+            
+            res.send(deleteInterviewResponse);
+        }).catch(next);
+
 });
 
 // ---------------------------- Returns all of the Interviews Scheduled Sorted By Date
 router.get('/ScheduledInterviews',function(req, res, next){
+        
         console.log("I am Inside the Get All Scheduled Interviews API");
-        var sampleresponsebody = JSON.stringify(
-            [{
-                "Company Name": "XYZ Corporation Pvt Ltd",
-                "Interview Date": "12-07-19",
-                "Interview Venue": "ABC Cyber Park Near PQR Cyber City UWZ City India"
-            },
-            {
-                "Company Name": "XYZ Corporation Pvt Ltd 2",
-                "Interview Date": "13-07-19",
-                "Interview Venue": "ABC Cyber Park Near PQR Cyber City UWZ City India"
-            },
-            {
-                "Company Name": "XYZ Corporation Pvt Ltd 3",
-                "Interview Date": "14-07-19",
-                "Interview Venue": "ABC Cyber Park Near PQR Cyber City UWZ City India"
-            }]
-        );
+    
+        Interview.find().sort({Interview_Date: -1}).then(function(interviews){
+            
+            // Returning Interviews Sorted in Descending Order of the Interview Date
+            res.send(interviews); 
 
-        res.send(sampleresponsebody); 
+        }).catch(next);
+        
     });
 
 // ---------------------------- Returns all of the Interviews Scheduled for a Particular Date
 router.get('/ScheduledInterviews/:InterviewDate',function(req, res, next){
         console.log("I am Inside the Get All Scheduled Interviews By Date API");
-        var sampleresponsebody = JSON.stringify(
-            {
-                "Company Name": "XYZ Corporation Pvt Ltd",
-                "Interview Date": "20-07-19",
-                "Interview Venue": "ABC Cyber Park Near PQR Cyber City UWZ City India"
-            }
-        );
 
-        res.send(sampleresponsebody); 
+        var interviewDate = req.params.InterviewDate;
+
+        Interview.find({Interview_Date: interviewDate}).then(function(interviewsondate){
+            
+            res.send(interviewsondate); 
+
+        }).catch(next);
+        
     });
 
 

@@ -9,7 +9,8 @@ const app = express();
 const interviewbasedOperationsRoute = require('./Routes/InterviewCalls');
 
 // Connect to MongoDB
-mongoose.connect('mongodb://localhost/InterviewsDB');
+// mongoose.connect('mongodb://localhost/InterviewsDB');
+mongoose.connect('mongodb://master:indian12345@@ds253537.mlab.com:53537/heroku_l7rc1lfr');
 mongoose.Promise = global.Promise;
 
 
@@ -17,6 +18,15 @@ mongoose.Promise = global.Promise;
 app.use(bodyparser.json());
 
 app.use('/api',interviewbasedOperationsRoute);
+
+// Custom Error Handling Middleware
+app.use(function(err, req, res, next){
+
+    console.log("\n"+"Request Failed"+"\n");
+    res.status(422).send({
+        "Message": err.message
+    });
+});
 
 // Listen to the Requests
 app.listen(process.env.port || 4000, function(){  // Add ( process.event.port || ) before 4000 before deploying the app to Heroku
