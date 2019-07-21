@@ -24,7 +24,7 @@ console.log("Connection Established For Test Env");
 }
 else
 {
-var dbconnectionURL  = `${config.User}:${encodeURIComponent(config.Password)}@${config.Host}:${config.Post}`;
+var dbconnectionURL  = `${config.User}:${encodeURIComponent(config.Password)}@${config.Host}:${config.Port}`;
 console.log("\n"+"Database Connection URL"+"\n"+dbconnectionURL);
 
 mongoose.connect(`mongodb://${dbconnectionURL}/${config.Database}`);
