@@ -1,6 +1,7 @@
 const express = require('express');
 const bodyparser = require('body-parser');
 const mongoose = require('mongoose');
+var config = require('./config.json');
 
 // Setting up the Express App
 const app = express();
@@ -13,8 +14,12 @@ app.get('/', function(req, res){
 const interviewbasedOperationsRoute = require('./Routes/InterviewCalls');
 
 // Connect to MongoDB
+
 // mongoose.connect('mongodb://localhost/InterviewsDB');
-mongoose.connect(`mongodb://master:${encodeURIComponent('indian@12345')}@ds253537.mlab.com:53537/heroku_l7rc1lfr`);
+mongoose.connect(`mongodb://${config.User}:${encodeURIComponent(config.Password)}@ds253537.mlab.com:53537/heroku_l7rc1lfr`);
+// Had Problem with using @ in the Password of MongoDB solved using Answer Provided by vanduc1102
+// at : https://stackoverflow.com/questions/7486623/mongodb-password-with-in-it
+
 mongoose.Promise = global.Promise;
 
 
