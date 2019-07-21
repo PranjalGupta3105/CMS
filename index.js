@@ -17,15 +17,21 @@ const interviewbasedOperationsRoute = require('./Routes/InterviewCalls');
 // Connect to MongoDB
 if(config.Environment == "Test")
 {
+
+//  Local DB Connection Configurations
 var dbconnectionURL  = `localhost`;
+config.Database = `InterviewsDB`;
+
 mongoose.connect(`mongodb://${dbconnectionURL}/${config.Database}`);
+
 mongoose.Promise = global.Promise;
 console.log("Connection Established For Test Env");
 }
 else
 {
+// Cloud Deployed DB Connection Configurations 
+// Beware :- Update config.json before cloud deployment of services
 var dbconnectionURL  = `${config.User}:${encodeURIComponent(config.Password)}@${config.Host}:${config.Port}`;
-console.log("\n"+"Database Connection URL"+"\n"+dbconnectionURL);
 
 mongoose.connect(`mongodb://${dbconnectionURL}/${config.Database}`);
 // Had Problem with using @ in the Password of MongoDB solved using Answer Provided by vanduc1102
@@ -50,7 +56,8 @@ app.use(function(err, req, res, next){
 });
 
 // Listen to the Requests
-app.listen(process.env.PORT || 4000, function(){  // Add ( process.event.port || ) before 4000 before deploying the app to Heroku
+app.listen(process.env.PORT || 4000, function()
+{ 
     console.log("Ready to Listen the Requests");   
 });
 
