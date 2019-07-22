@@ -1,7 +1,8 @@
 const express = require('express');
 const router = express.Router();
+const jwt = require('jsonwebtoken');
 const Interview = require('../Models/Interview');
-
+const tokenAuth = require('../Helpers/auth_mech');
 
 // ---------------------------- Register a New Interview Call
 router.post('/RegisterNewInterview',function(req, res, next){
@@ -71,16 +72,26 @@ router.delete('/RemoveSavedInterview/:InterviewId',function(req, res, next){
 });
 
 // ---------------------------- Returns all of the Interviews Scheduled Sorted By Date
-router.get('/ScheduledInterviews',function(req, res, next){
+router.get('/ScheduledInterviews',tokenAuth.verifyToken, function(req, res, next){
         
-        console.log("I am Inside the Get All Scheduled Interviews API");
+        jwt.verify(req.token, 'secretkey', (err, authData)=>{
+            if(err){
+                res.sendStatus(403);
+            }
+            else
+            {
+                console.log("I am Inside the Get All Scheduled Interviews API");
     
-        Interview.find().sort({Interview_Date: -1}).then(function(interviews){
-            
-            // Returning Interviews Sorted in Descending Order of the Interview Date
-            res.send(interviews); 
+                Interview.find().sort({Interview_Date: -1}).then(function(interviews){
+                    
+                    // Returning Interviews Sorted in Descending Order of the Interview Date
+                    res.send(interviews); 
+        
+                }).catch(next);
+            }
+        });
 
-        }).catch(next);
+
         
     });
 
