@@ -1,4 +1,4 @@
-module.exports = function verifyToken(req, res, next){
+module.exports.verifyToken = function (req, res, next){
 
     // Get auth Header value
     const bearerHeader = req.headers['authorization'];
@@ -14,7 +14,8 @@ module.exports = function verifyToken(req, res, next){
         // Next Middleware
         next();
     }
-    else{
+    else
+    {
         res.sendStatus(403);
     }
 };

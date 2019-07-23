@@ -5,11 +5,18 @@ const Interview = require('../Models/Interview');
 const tokenAuth = require('../Helpers/auth_mech');
 
 // ---------------------------- Register a New Interview Call
-router.post('/RegisterNewInterview',function(req, res, next){
-        console.log("I have Entered Register New Interview API");
-        // console.log("\n"+"Request Body send to the API"+"\n");
-        // console.log(req.body);
-        Interview.create(req.body).then(function(interview){
+router.post('/RegisterNewInterview', tokenAuth.verifyToken, function(req, res, next){
+        
+    jwt.verify(req.token, 'secretkey', (err, authData)=>{
+        if(err){
+            res.sendStatus(403);
+        }
+        else
+        {
+            console.log("I have Entered Register New Interview API");
+            // console.log("\n"+"Request Body send to the API"+"\n");
+            // console.log(req.body);
+            Interview.create(req.body).then(function(interview){
             
             var registerInterviewResponse = JSON.stringify(
                 {
@@ -21,16 +28,25 @@ router.post('/RegisterNewInterview',function(req, res, next){
     
             res.send(registerInterviewResponse);
         }).catch(next);
-        
+        }
+    });
+    
     });
 
 // ---------------------------- Update an existing Interview Details
-router.put('/UpdateInterviewDetails/:InterviewId', function(req, res, next){
-        console.log("I have Entered Update Interview Details API");
+router.put('/UpdateInterviewDetails/:InterviewId', tokenAuth.verifyToken, function(req, res, next){
+        
+    jwt.verify(req.token, 'secretkey', (err, authData)=>{
+        if(err){
+            res.sendStatus(403);
+        }
+        else
+        {
+            console.log("I have Entered Update Interview Details API");
 
-        var interviewId = req.params.InterviewId;
+            var interviewId = req.params.InterviewId;
 
-        Interview.findByIdAndUpdate({_id: interviewId}, req.body).then(function(){
+            Interview.findByIdAndUpdate({_id: interviewId}, req.body).then(function(){
             
             // If we return the updatedInterview, then the Enteries would not be shown reflected, thus
             Interview.findOne({_id: interviewId}).then(function(updatedInterview){
@@ -46,19 +62,27 @@ router.put('/UpdateInterviewDetails/:InterviewId', function(req, res, next){
             }).catch(next);
             
         }).catch(next);
-
+        }
+    });
 
 });
 
 // ---------------------------- Remove an existing Interview Details
-router.delete('/RemoveSavedInterview/:InterviewId',function(req, res, next){
-        console.log("I have Entered Remove a Saved Interview API");
-
-        // Grabbing the InterviewId for the Interview to be delete from the parameters in the URL
-        var interviewId = req.params.InterviewId; 
+router.delete('/RemoveSavedInterview/:InterviewId', tokenAuth.verifyToken, function(req, res, next){
         
-        // Method will Find the Element with the Unique Object ID in Mongo DB and will remove it
-        Interview.findByIdAndRemove({_id: interviewId}).then(function(removedinterview){
+    jwt.verify(req.token, 'secretkey', (err, authData)=>{
+        if(err){
+            res.sendStatus(403);
+        }
+        else
+        {
+            console.log("I have Entered Remove a Saved Interview API");
+
+            // Grabbing the InterviewId for the Interview to be delete from the parameters in the URL
+            var interviewId = req.params.InterviewId; 
+        
+            // Method will Find the Element with the Unique Object ID in Mongo DB and will remove it
+            Interview.findByIdAndRemove({_id: interviewId}).then(function(removedinterview){
 
             var deleteInterviewResponse = JSON.stringify(
                 {
@@ -67,12 +91,14 @@ router.delete('/RemoveSavedInterview/:InterviewId',function(req, res, next){
                 });
             
             res.send(deleteInterviewResponse);
-        }).catch(next);
+            }).catch(next);
+        }
+    });
 
 });
 
 // ---------------------------- Returns all of the Interviews Scheduled Sorted By Date
-router.get('/ScheduledInterviews',tokenAuth.verifyToken, function(req, res, next){
+router.get('/ScheduledInterviews', tokenAuth.verifyToken, function(req, res, next){
         
         jwt.verify(req.token, 'secretkey', (err, authData)=>{
             if(err){
@@ -85,7 +111,11 @@ router.get('/ScheduledInterviews',tokenAuth.verifyToken, function(req, res, next
                 Interview.find().sort({Interview_Date: -1}).then(function(interviews){
                     
                     // Returning Interviews Sorted in Descending Order of the Interview Date
-                    res.send(interviews); 
+                    res.send(
+                        {
+                        interviews,
+                        authData
+                        }); 
         
                 }).catch(next);
             }
@@ -96,17 +126,27 @@ router.get('/ScheduledInterviews',tokenAuth.verifyToken, function(req, res, next
     });
 
 // ---------------------------- Returns all of the Interviews Scheduled for a Particular Date
-router.get('/ScheduledInterviews/:InterviewDate',function(req, res, next){
-        console.log("I am Inside the Get All Scheduled Interviews By Date API");
+router.get('/ScheduledInterviews/:InterviewDate', tokenAuth.verifyToken, function(req, res, next){
+        
+        jwt.verify(req.token, 'secretkey', (err, authData)=>{
+            if(err)
+            {
+            res.sendStatus(403);
+            }
+            else
+            {
+            console.log("I am Inside the Get All Scheduled Interviews By Date API");
 
-        var interviewDate = req.params.InterviewDate;
+            var interviewDate = req.params.InterviewDate;
 
-        Interview.find({Interview_Date: interviewDate}).then(function(interviewsondate){
+            Interview.find({Interview_Date: interviewDate}).then(function(interviewsondate){
             
             res.send(interviewsondate); 
 
-        }).catch(next);
-        
+            }).catch(next);
+        }
+    });
+
     });
 
 

@@ -11,7 +11,7 @@ authrouter.post('/login',function(req, res, next){
         password: 'adminadmin'
     };
 
-    jwt.sign({user}, 'secretkey', (err, access_token)=>{
+    jwt.sign({user}, 'secretkey', {expiresIn: '30s'}, (err, access_token)=>{
         res.send({
             access_token: access_token
         })
