@@ -15,7 +15,7 @@ authrouter.post('/login',function(req, res, next){
         res.send({
             access_token: access_token
         })
-    }).catch(next);
+    });
 
 });
 
