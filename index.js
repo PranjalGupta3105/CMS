@@ -10,13 +10,6 @@ app.get('/', function(req, res){
     res.send('Services Connected');
 });
 
-// Get Access Token
-const authtokenRoute = require('./Routes/auth');
-
-
-// Grabbing up all of the Routes defined in the file
-const interviewbasedOperationsRoute = require('./Routes/InterviewCalls');
-
 
 // Connect to MongoDB
 if(config.Environment == "Test")
@@ -44,6 +37,14 @@ mongoose.connect(`mongodb://${dbconnectionURL}/${config.Database}`);
 mongoose.Promise = global.Promise;
 console.log("Connection Established For Dev Env");
 }
+
+// Get Access Token
+const authtokenRoute = require('./Routes/auth');
+
+
+// Grabbing up all of the Routes defined in the file
+const interviewbasedOperationsRoute = require('./Routes/InterviewCalls');
+
 
 // Role : It is a Middle-ware, takes the Body as send by the Caller and attaches it to the Request's Body for further usage
 app.use(bodyparser.json());
