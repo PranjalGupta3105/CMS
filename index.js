@@ -7,8 +7,12 @@ var config = require('./config.json');
 const app = express();
 
 app.get('/', function(req, res){
-    res.send('Connected');
+    res.send('Services Connected');
 });
+
+// Get Access Token
+const authtokenRoute = require('./Routes/auth');
+
 
 // Grabbing up all of the Routes defined in the file
 const interviewbasedOperationsRoute = require('./Routes/InterviewCalls');
@@ -43,6 +47,8 @@ console.log("Connection Established For Dev Env");
 
 // Role : It is a Middle-ware, takes the Body as send by the Caller and attaches it to the Request's Body for further usage
 app.use(bodyparser.json());
+
+app.use('/api',authtokenRoute);
 
 app.use('/api',interviewbasedOperationsRoute);
 
