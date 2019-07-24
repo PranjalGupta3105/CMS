@@ -28,7 +28,7 @@ authrouter.post('/login',function(req, res, next){
             
             res.send({
                 access_token,
-            })
+            });
         }); // Using catch(next) here will try to re-set the header after sending it.
     
     }).catch(next);
