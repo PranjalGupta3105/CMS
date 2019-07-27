@@ -26,9 +26,7 @@ authrouter.post('/login',function(req, res, next){
 
         jwt.sign({user}, 'secretkey', {expiresIn: '30s'}, (err, access_token)=>{
             
-            res.send({
-                access_token,
-            });
+            res.send({access_token});
         }); // Using catch(next) here will try to re-set the header after sending it.
     
     }).catch(next);

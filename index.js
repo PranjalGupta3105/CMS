@@ -1,17 +1,16 @@
 const express = require('express');
 const bodyparser = require('body-parser');
 const mongoose = require('mongoose');
+const cors = require('cors');
 var config = require('./config.json');
 
 // Setting up the Express App
 const app = express();
 
-app.use(function(req, res, next) {
-    res.header("Access-Control-Allow-Origin", "*");
-    res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
-    next();
-  });
-  
+// Request header field Authorization is not allowed by Access-Control-Allow-Headers in preflight response.
+app.use(cors());
+app.options('*', cors());
+// https://stackoverflow.com/questions/42061727/cors-error-request-header-field-authorization-is-not-allowed-by-access-control
 
 app.get('/', function(req, res){
     res.send('Services Connected');
