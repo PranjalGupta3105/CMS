@@ -24,7 +24,7 @@ authrouter.post('/login',function(req, res, next){
         console.log("\n"+"User being verified is = "+"\n"+JSON.stringify(user));
         
 
-        jwt.sign({user}, 'secretkey', {expiresIn: '30s'}, (err, access_token)=>{
+        jwt.sign({user}, 'secretkey', {expiresIn: '7200s'}, (err, access_token)=>{
             
             res.send({access_token});
         }); // Using catch(next) here will try to re-set the header after sending it.
