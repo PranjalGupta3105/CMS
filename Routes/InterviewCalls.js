@@ -150,6 +150,30 @@ router.get('/ScheduledInterviews/:InterviewDate', tokenAuth.verifyToken, functio
     });
 
 
+// ---------------------------- Returns the Interviews by InterviewId
+router.get('/GetInterview/:InterviewId', tokenAuth.verifyToken, function(req, res, next){
+        
+    jwt.verify(req.token, 'secretkey', (err, authData)=>{
+        if(err)
+        {
+        res.sendStatus(403);
+        }
+        else
+        {
+        console.log("I am Inside the Get Interviews By Id API");
+
+        //var id = req.params.InterviewId;
+
+        Interview.findById(req.params.InterviewId).then(function(interview){
+        
+        res.send(interview); 
+
+        }).catch(next);
+    }
+});
+
+});
+
 
 
 
