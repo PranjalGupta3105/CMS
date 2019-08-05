@@ -15,7 +15,8 @@ const InterviewTBSchema =  new Schema({
     Interview_Venue: {type: String, require: [true,"Interview Venue cannot be left Blank"]},
     Contact_Person: {type: String, require: [false]},
     Contact_Person_Email: {type: String, require: [true,"Contacted Person's Email cannot be left Blank"]},
-    Contact_Person_Phone: {type: String, require:[false]}
+    Contact_Person_Phone: {type: String, require:[false]},
+    User_Id: {type: String, require: [true]}
 });
 
 const InterviewTBModel = mongoose.model('interviews',InterviewTBSchema);

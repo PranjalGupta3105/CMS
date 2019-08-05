@@ -1,7 +1,7 @@
 const express = require('express');
 const authrouter = express.Router();
 const jwt = require('jsonwebtoken');
-const User = require('../Models/Auth');
+const User = require('../Models/User');
 
 authrouter.post('/login',function(req, res, next){
 
