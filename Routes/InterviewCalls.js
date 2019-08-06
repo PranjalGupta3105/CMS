@@ -16,7 +16,7 @@ router.post('/SignUp', function(req, res, next)
     {
         var userSignUpResponse = JSON.stringify(
         {
-            "Message": "Your Signed-In Successfully",
+            "Message": "You have been Signed-Up Successfully",
             "UserId": signupresponse._id
         });
 
