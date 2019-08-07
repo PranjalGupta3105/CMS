@@ -6,6 +6,18 @@ const Interview = require('../Models/Interview');
 const tokenAuth = require('../Helpers/auth_mech');
 const userIdHelper = require('../Helpers/getuserid_mech');
 
+// ------------------------------- Update User Password
+router.post('/ForgotPassword', function(req, res, next)
+{
+    console.log("API Invoked Forgot Password");
+    User.findOneAndUpdate({Email: req.body.Email, Phone: req.body.Phone},
+        {Password: req.body.Password}).then(function(updateduser)
+        {
+            res.send(updateduser);
+        });
+    
+});
+
 // ---------------------------- New User Sign Up
 router.post('/SignUp', function(req, res, next)
 { 
