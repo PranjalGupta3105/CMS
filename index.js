@@ -26,6 +26,7 @@ var dbconnectionURL  = `localhost`;
 config.Database = `InterviewsDB`;
 
 mongoose.connect(`mongodb://${dbconnectionURL}/${config.Database}`);
+mongoose.set('useFindAndModify', false);
 
 mongoose.Promise = global.Promise;
 console.log("Connection Established For Test Env");

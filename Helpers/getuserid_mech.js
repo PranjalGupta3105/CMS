@@ -13,12 +13,16 @@ module.exports.getUserIdFromToken = function(authdata, deliveruserId)
     
     User.find({Username: loginusername}).then(function(loggedusercredentials){
                 
-    // console.log("Logged User credentials"+JSON.parse(JSON.stringify(loggedusercredentials)));
+        console.log("stringyfied value"+JSON.stringify(loggedusercredentials));
+        
+         console.log("parsed value"+JSON.parse(JSON.stringify(loggedusercredentials)));
 
-    var userid = JSON.stringify(JSON.parse(JSON.stringify(loggedusercredentials))[0]['_id']);
-    console.log("Logged User Id is "+userid);
-                
-    deliveruserId(userid);
+         var userid = JSON.stringify(JSON.parse(JSON.stringify(loggedusercredentials))[0]['_id']);
+         console.log("Logged User Id is "+userid);
+        
+        // var userid  = "5d448f7659634e2678b2df3d" ;
+
+        deliveruserId(userid);
     
     });
 }
